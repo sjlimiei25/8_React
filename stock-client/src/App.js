@@ -54,7 +54,8 @@ function App() {
           </tr>
           <tr>
             <th>시가총액</th>
-            <td>{stock.market_sum} (억)</td>
+            {/* <td>{stock.market_sum} (억)</td> */}
+            <td>{stock.marketCap} (억)</td>
           </tr>
         </table>
       }
