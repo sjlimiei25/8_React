@@ -1,4 +1,8 @@
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+
+import * as z from 'zod';   // 검증 도구
+import { zodResolver } from '@hookform/resolvers/zod';
 
 /*
   react-hook-form (useForm)
@@ -20,32 +24,55 @@ import { useForm } from 'react-hook-form';
     - 입력값 검증 로직이 복잡할 때 (이메일 형식, 비밀번호 일치 등)
 */
 
+// 입력값 검증 항목 정의
+const validRules = z.object({
+  userId: z.string().min(4, "4자 이상 입력하세요.").max(12, "12자 이하로 입력하세요."),
+  email: z.email("올바른 이메일 형식으로 입력하세요."),
+  age: z.coerce.number().min(1, "1 이상으로 입력하세요.")
+});
+
+const errorStyle = {
+  color: 'red'
+}
+
+
 function JoinForm() {
 
   const { register,       // 입력 요소(input)를 react-hook-form에 등록하는 함수
           handleSubmit,   // 폼 제출 시 호출되어 데이터 검증 후 콜백을 실행하는 함수. 자체적으로 e.preventDefault() 처리를 해줌
           formState: { errors } // 실시간으로 검증 에러 상태를 담고 있는 객체
-        } = useForm();
+        } = useForm({
+          resolver: zodResolver(validRules)
+        });
 
-  const joinRequest = (data) => {
-
+  const joinRequest = async (data) => {
+    
     console.log(data)
     // * axios를 사용하여 스프링 서버로 요청 *
+    // (요청주소) [POST] http://localhost:8080/join
+    try {
+      const response = await axios.post('http://localhost:8080/join', data)
+      console.log(response)     // 개발자 입장에서 확인용
+      alert('회원 가입 성공')   // 사용자에게 표시용
+    } catch (error) {
+      console.log(error)
+      alert('문제가 발생했습니다.')
+    }
   }
 
   return (
     <form onSubmit={handleSubmit(joinRequest)}>
       {/* 아이디 입력 */}
       <input type="text" placeholder='아이디는 4~12자' {...register('userId')} />
-      { errors.userId && <span>{errors.userId.message}</span> }
+      { errors.userId && <span style={errorStyle}>{errors.userId.message}</span> }
       <br/>
       {/* 이메일 입력 */}
       <input type="text" placeholder='이메일 입력' {...register('email')} />
-      { errors.email && <span>{errors.email.message}</span> }
+      { errors.email && <span style={errorStyle}>{errors.email.message}</span> }
       <br/>
       {/* 나이 입력 */}
       <input type="number" placeholder='1살 이상만 입력' {...register('age')} />
-      { errors.age && <span>{errors.age.message}</span> }
+      { errors.age && <span style={errorStyle}>{errors.age.message}</span> }
       <br/>
 
       <button type="submit">가입하기</button>
