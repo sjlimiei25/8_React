@@ -27,6 +27,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 // 입력값 검증 항목 정의
 const validRules = z.object({
   userId: z.string().min(4, "4자 이상 입력하세요.").max(12, "12자 이하로 입력하세요."),
+  userPwd: z.string().min(10, "비밀번호는 10자 이상 입력하세요.")
+                     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^*()_\-+=])[A-Za-z\d!@#$%^*()_\-+=]*$/, "영문, 숫자, 특수문자를 포함하여 입력하세요."),
   email: z.email("올바른 이메일 형식으로 입력하세요."),
   age: z.coerce.number().min(1, "1 이상으로 입력하세요.")
 });
@@ -66,6 +68,12 @@ function JoinForm() {
       <input type="text" placeholder='아이디는 4~12자' {...register('userId')} />
       { errors.userId && <span style={errorStyle}>{errors.userId.message}</span> }
       <br/>
+
+      {/* 비밀번호 입력 */}
+      <input type="password" placeholder='비밀번호 10자 이상' {...register('userPwd')} />
+      { errors.userPwd && <span style={errorStyle}>{errors.userPwd.message}</span> }
+      <br/>
+
       {/* 이메일 입력 */}
       <input type="text" placeholder='이메일 입력' {...register('email')} />
       { errors.email && <span style={errorStyle}>{errors.email.message}</span> }
