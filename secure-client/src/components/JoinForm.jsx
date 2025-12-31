@@ -29,9 +29,15 @@ const validRules = z.object({
   userId: z.string().min(4, "4자 이상 입력하세요.").max(12, "12자 이하로 입력하세요."),
   userPwd: z.string().min(10, "비밀번호는 10자 이상 입력하세요.")
                      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^*()_\-+=])[A-Za-z\d!@#$%^*()_\-+=]*$/, "영문, 숫자, 특수문자를 포함하여 입력하세요."),
+  checkUserPwd: z.string().min(1, "비밀번호 확인을 입력하세요."),
   email: z.email("올바른 이메일 형식으로 입력하세요."),
   age: z.coerce.number().min(1, "1 이상으로 입력하세요.")
+})
+.refine((data)=>data.userPwd === data.checkUserPwd, {  // refine : zod 객체 내부의 여러 필드를 비교할 때 사용
+  message: "비밀번호가 일치하지 않습니다.",           // 조건에 해당되지 않을 때 표시할 메시지
+  path: ["checkUserPwd"]                              // 에러 메시지(message)를 표시할 위치
 });
+// .refine((data)=>{ return data.userPwd == data.checkUserPwd });
 
 const errorStyle = {
   color: 'red'
@@ -48,12 +54,18 @@ function JoinForm() {
         });
 
   const joinRequest = async (data) => {
-    
-    console.log(data)
+    // 비밀번호 확인(checkUserPwd) 데이터는 클라이언트에서 확인용으로 사용
+    // -> 서버로 요청 시 제외!
+
+    const { checkUserPwd, ...requestData } = data;
+
+    // console.log(data)
+    console.log(requestData)
+
     // * axios를 사용하여 스프링 서버로 요청 *
     // (요청주소) [POST] http://localhost:8080/join
     try {
-      const response = await axios.post('http://localhost:8080/join', data)
+      const response = await axios.post('http://localhost:8080/join', requestData)
       console.log(response)     // 개발자 입장에서 확인용
       alert('회원 가입 성공')   // 사용자에게 표시용
     } catch (error) {
@@ -72,6 +84,11 @@ function JoinForm() {
       {/* 비밀번호 입력 */}
       <input type="password" placeholder='비밀번호 10자 이상' {...register('userPwd')} />
       { errors.userPwd && <span style={errorStyle}>{errors.userPwd.message}</span> }
+      <br/>
+
+      {/* 비밀번호 확인 입력 */}
+      <input type="password" placeholder='비밀번호 확인 입력' {...register('checkUserPwd')} />
+      { errors.checkUserPwd && <span style={errorStyle}>{errors.checkUserPwd.message}</span> }
       <br/>
 
       {/* 이메일 입력 */}
