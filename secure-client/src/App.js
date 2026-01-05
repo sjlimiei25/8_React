@@ -1,13 +1,9 @@
 import './App.css';
-import JoinForm from './components/JoinForm';
+import Router from './routes/Router';
 
 function App() {
   return (
-    <div>
-      <h2>Secure Client</h2>
-
-      <JoinForm />
-    </div>
+    <Router />
   );
 }
 
