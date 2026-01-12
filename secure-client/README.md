@@ -3,3 +3,4 @@
 - axios
 - zod , @hookform/resolvers
 - react-router-dom
+- zustand
