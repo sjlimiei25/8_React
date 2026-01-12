@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 
 import * as z from 'zod';
 import axios from 'axios';
+import api from '../services/axios';
+import { login } from '../services/userService';
+import useAuthStore from '../store/authStore';
 
 // react-hook-form을 사용하지 않고 구성.
 // * zod를 사용하여 값이 입력되었는 지만 검증 *
@@ -22,6 +25,9 @@ function LoginForm() {
     userPwd: ""
   });
 
+  const { setAuth } = useAuthStore();
+
+
   const loginHandler = async () => {
     // 로그인 요청 시 입력 여부만 체크!
     // const result = loginRules.safeParse({userId: userId, userPwd: userPwd})
@@ -37,8 +43,13 @@ function LoginForm() {
     //  [POST] /login 
     //  { userId: xx, userPwd: xx }
     try {
-      const response = await axios.post("http://localhost:8080/login", loginData)
+      // const response = await axios.post("http://localhost:8080/login", loginData)
+      const response = await login(loginData);
+
       console.log(response)
+
+      // 전달받은 토큰을 전역 상태에 등록(상태 변경)
+      setAuth(response.token, response.userId);
 
       alert("로그인 성공")
     } catch (error) {
@@ -49,7 +60,6 @@ function LoginForm() {
   const changeHandler = (e) => {
     // console.log(e)
     const { name, value } = e.target;
-
     setLoginData({
       ...loginData,     // {userId: "", userPwd: ""}
       [name]: value     // userPwd: "a" -> {userId: "", userPwd: "a"}
