@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "../layouts/Layout";
 import Join from "../pages/Join";
 import Login from "../pages/Login";
+import Home from "../pages/Home";
 
 /*
   * react-router-dom
@@ -38,7 +39,7 @@ function Router() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/join" element={<Join/>} />
-          <Route path="/" element={<Login/>} />
+          <Route path="/" element={<Home/>} />
         </Route>
       </Routes>
     </BrowserRouter>
