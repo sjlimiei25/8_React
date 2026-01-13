@@ -6,6 +6,9 @@ import { join } from '../../services/userService';
 import { ErrorMessage, Input, JoinButton } from './JoinForm.styled';
 import { useNavigate } from 'react-router-dom';
 
+
+import { errorAlert, successAlert } from '../../utils/SwalUtil';
+
 /*
   react-hook-form (useForm)
   [1] 불필요한 리렌더링 방지 (성능 최적화)
@@ -41,10 +44,6 @@ const validRules = z.object({
   });
 // .refine((data)=>{ return data.userPwd == data.checkUserPwd });
 
-const errorStyle = {
-  color: 'red'
-}
-
 
 function JoinForm() {
 
@@ -74,11 +73,13 @@ function JoinForm() {
       const response = await join(requestData);
 
       // console.log(response)     // 개발자 입장에서 확인용
-      alert('회원 가입 성공')   // 사용자에게 표시용
+      // alert('회원 가입 성공')   // 사용자에게 표시용
+      successAlert('회원 가입 성공')
       navigate('/')
     } catch (error) {
       console.log(error)
-      alert('문제가 발생했습니다.')
+      // alert('문제가 발생했습니다.')
+      errorAlert('문제가 발생했습니다.')
     }
   }
 

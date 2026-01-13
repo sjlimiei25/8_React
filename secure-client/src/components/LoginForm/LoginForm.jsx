@@ -5,6 +5,8 @@ import { login } from '../../services/userService';
 import useAuthStore from '../../store/authStore';
 import { Button, Input, JoinLink } from './LoginForm.styled';
 
+import { errorAlert, successAlert } from '../../utils/SwalUtil';
+
 // react-hook-form을 사용하지 않고 구성.
 // * zod를 사용하여 값이 입력되었는 지만 검증 *
 const loginRules = z.object({
@@ -33,7 +35,7 @@ function LoginForm() {
 
     // console.log(result)
     if (!result.success) {  // 유효성 검증을 통과하지 못한 경우 (success == false)
-      alert("아이디 또는 비밀번호가 입력되지 않았습니다.")
+      errorAlert("아이디 또는 비밀번호가 입력되지 않았습니다.")
       return
     }
 
@@ -49,9 +51,11 @@ function LoginForm() {
       // 전달받은 토큰을 전역 상태에 등록(상태 변경)
       setAuth(response.token, response.userId);
 
-      alert("로그인 성공")
+      // alert("로그인 성공")
+      successAlert("로그인 성공")
     } catch (error) {
-      alert("아이디 또는 비밀번호가 올바르지 않습니다.")
+      // alert("아이디 또는 비밀번호가 올바르지 않습니다.")
+      errorAlert("아이디 또는 비밀번호가 올바르지 않습니다.")
     }
   }
 
