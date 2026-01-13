@@ -1,9 +1,9 @@
 // rfce 단축어 사용 : es7+.. snippets 확장팩 추가
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "../layouts/Layout";
-import Join from "../pages/Join";
-import Home from "../pages/Home";
+import Layout from "../layouts/Layout/Layout";
+import Join from "../pages/Join/Join";
+import Home from "../pages/Home/Home";
 
 /*
   * react-router-dom
@@ -37,8 +37,8 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/join" element={<Join/>} />
-          <Route path="/" element={<Home/>} />
+          <Route path="/join" element={<Join />} />
+          <Route path="/" element={<Home />} />
         </Route>
       </Routes>
     </BrowserRouter>
