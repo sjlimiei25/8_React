@@ -6,3 +6,4 @@
 - zustand
 
 - styled-components
+- sweetalert2
