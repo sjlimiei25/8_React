@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 
 import * as z from 'zod';   // 검증 도구
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -61,7 +60,7 @@ function JoinForm() {
     const { checkUserPwd, ...requestData } = data;
 
     // console.log(data)
-    console.log(requestData)
+    // console.log(requestData)
 
     // * axios를 사용하여 스프링 서버로 요청 *
     // (요청주소) [POST] http://localhost:8080/join
@@ -69,7 +68,7 @@ function JoinForm() {
       // const response = await axios.post('http://localhost:8080/join', requestData)
       const response = await join(requestData);
 
-      console.log(response)     // 개발자 입장에서 확인용
+      // console.log(response)     // 개발자 입장에서 확인용
       alert('회원 가입 성공')   // 사용자에게 표시용
     } catch (error) {
       console.log(error)

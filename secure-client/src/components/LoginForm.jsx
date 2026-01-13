@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import * as z from 'zod';
-import axios from 'axios';
-import api from '../services/axios';
 import { login } from '../services/userService';
 import useAuthStore from '../store/authStore';
 
@@ -33,7 +31,7 @@ function LoginForm() {
     // const result = loginRules.safeParse({userId: userId, userPwd: userPwd})
     const result = loginRules.safeParse(loginData)
 
-    console.log(result)
+    // console.log(result)
     if (!result.success) {  // 유효성 검증을 통과하지 못한 경우 (success == false)
       alert("아이디 또는 비밀번호가 입력되지 않았습니다.")
       return
@@ -46,7 +44,7 @@ function LoginForm() {
       // const response = await axios.post("http://localhost:8080/login", loginData)
       const response = await login(loginData);
 
-      console.log(response)
+      // console.log(response)
 
       // 전달받은 토큰을 전역 상태에 등록(상태 변경)
       setAuth(response.token, response.userId);

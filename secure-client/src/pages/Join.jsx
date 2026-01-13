@@ -1,4 +1,3 @@
-import React from 'react'
 import JoinForm from '../components/JoinForm'
 
 function Join() {
