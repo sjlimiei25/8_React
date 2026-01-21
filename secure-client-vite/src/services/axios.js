@@ -4,7 +4,8 @@ import useAuthStore from '../store/authStore';
 
 // 공통으로 사용될 axios 객체를 설정한 후 export
 // const SERVER_URL = 'http://localhost:8080'
-const SERVER_URL = process.env.REACT_APP_API_SERVER_URL
+// const SERVER_URL = process.env.REACT_APP_API_SERVER_URL
+const SERVER_URL = import.meta.env.VITE_API_SERVER_URL
 /*
 // process.env => {REACT_APP_API_SERVER_URL: 'xxx',  }
 const {
