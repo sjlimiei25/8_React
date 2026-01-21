@@ -17,12 +17,11 @@
     "zod": "^4.2.1",
     "zustand": "^5.0.9"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+"scripts": {
+  "start": "vite",
+  "build": "vite build",
+  "serve": "vite preview"
+},
   "eslintConfig": {
     "extends": [
       "react-app",
